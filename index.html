@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yu-Gi-Oh Jo-Ken-Poh Edition</title>
 
+    <!-- FavIcon -->
+
+    <link rel="shortcut icon" href="src/assets/favicon/Favicon.ico" type="image/x-icon">
+
     <!-- CSS -->
     <link rel="stylesheet" href="src/styles/reset.css">
     <link rel="stylesheet" href="src/styles/buttons.css">
@@ -20,6 +24,10 @@
 </head>
 
 <body>
+
+    <audio id="bgm" loop>
+        <source src="src/assets/audios/egyptian_duel.mp3" type="audio/mp3">
+    </audio>
     <div class="bg-video">
         <video class="video" autoplay loop muted>
             <source src="src/assets/video/yugi.mp4" type="video/mp4">
@@ -43,7 +51,7 @@
         <div class="container_right">
         <div class="card-box_container">
             <div class="card-box framed" id="computer-cards"></div>
-                <div class="card-versus_container">
+                <div class="card-versus_container debug">
                     <div class="versus-top">
                         <div class="card-infield">
                             <img id="computer-field-card" height="180px" width="125px">

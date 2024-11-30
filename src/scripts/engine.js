@@ -14,8 +14,8 @@ const state = {
         computer: document.getElementById("computer-field-card")
     },
 
+    button: document.getElementById("next-duel"),
 
-    button: document.getElementById("next-duel")
 }
 
 const cardData = [
@@ -64,7 +64,7 @@ async function createCardImage(IDCard, fieldSide) {
 
     if(fieldSide === playerSides.player1){
         cardImage.addEventListener("click", ()=>{
-            setCardsField(cardImage.getAttribute("data=id"));
+            setCardsField(cardImage.getAttribute("data-id"));
         })
     
 
@@ -84,6 +84,9 @@ async function setCardsField(cardId) {
     state.fieldCards.player.style.display = "block";
     state.fieldCards.computer.style.display = "block";
 
+    console.log("TESTEeeeeeeeeeee")
+    console.log(cardData[cardId])
+
     state.fieldCards.player.src = cardData[cardId].img;
     state.fieldCards.computer.src = cardData[computerCardId].img;
 
@@ -91,6 +94,35 @@ async function setCardsField(cardId) {
 
     await updateScore();
     await drawButton(duelResults);
+}
+
+async function drawButton(text){
+    state.button.innerText = text;
+    state.button.style.display = "block"
+}
+
+async function updateScore(){
+    state.score.scoreBox.innerText = `Win: ${state.score.playerScore} | Lose: ${state.score.computerScore}`
+}
+
+async function checkDuelResults(playerCardId, computerCardId){
+    let duelResults = "Draw";
+    let playerCard = cardData[playerCardId];
+
+    if(playerCard.WinOf.includes(computerCardId)){
+        duelResults = "win";
+        await playAudio(duelResults)
+        state.score.playerScore++;
+    }
+
+    if(playerCard.LoseOf.includes(computerCardId)){
+        duelResults = "lose";
+        await playAudio(duelResults)
+
+        state.score.computerScore++;
+    }
+
+    return duelResults;
 }
 
 async function removeAllCardsImages() {
@@ -120,10 +152,32 @@ async function drawCards(cardNumber, fieldSide){
     }
 }
 
+async function resetDuel(){
+    state.cardsSprites.avatar.src = "";
+    state.button.style.display = "none";
+
+    state.fieldCards.player.style.display = "none"
+    state.fieldCards.computer.style.display = "none"
+
+    state.cardsSprites.name.innerText = "Selecione"
+    state.cardsSprites.type.innerText = "Uma Carta"
+
+    init();
+}
+
+async function playAudio(status) {
+    const audio = new Audio(`./src/assets/audios/${status}.wav`)    
+    audio.play()
+}
+
 
 function init(){
+
+
     drawCards(5, playerSides.player1);
     drawCards(5, playerSides.computer);
+
+
 }
 
 init();
